@@ -4,7 +4,7 @@ import { TerminalContextProvider } from "react-terminal";
 import { ReactTerminal } from "react-terminal";
 
 const App = () => {
-  const [theme, setTheme] = React.useState("light");
+  const [theme, setTheme] = React.useState("matrix");
   const [controlBar, setControlBar] = React.useState(true);
   const [controlButtons, setControlButtons] = React.useState(true);
   const [prompt, setPrompt] = React.useState(">>>");
@@ -80,7 +80,7 @@ const App = () => {
 
   const welcomeMessage = (
     <span>
-      Type "help" for all available commands. <br />
+      Welcome to paperhands.sh. Type "help" for all available commands. <br />
     </span>
   );
 
