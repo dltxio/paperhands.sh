@@ -2,10 +2,12 @@ import * as React from "react";
 import "./App.css";
 import { TerminalContextProvider } from "react-terminal";
 import { ReactTerminal } from "react-terminal";
+import { ethers } from "ethers";
 
 const App = () => {
   const [theme, setTheme] = React.useState("matrix");
   const [prompt, setPrompt] = React.useState(">>>");
+  const [address, setAddress] = React.useState("");
 
   const commands = {
     help: (
@@ -29,7 +31,7 @@ const App = () => {
         "material-dark",
         "material-ocean",
         "matrix",
-        "dracula",
+        "dracula"
       ];
       if (!validThemes.includes(theme)) {
         return `Theme ${theme} not valid. Try one of ${validThemes.join(", ")}`;
@@ -44,17 +46,45 @@ const App = () => {
     //   return await response.text();
     // },
 
-    command: async (command) => {
-      const response = await fetch(
-        `http://localhost:3003/expr=${encodeURIComponent(command)}`
-      );
+    // command: async (command) => {
+    //   const response = await fetch(
+    //     `http://localhost:3003/expr=${encodeURIComponent(command)}`
+    //   );
+    //   return await response.text();
+    // },
+
+    price: async (symbol) => {
+      const response = await fetch(`http://localhost:3003/price/${symbol}`);
       return await response.text();
     },
 
-    bitcoin: async () => {
-      const response = await fetch(
-        `http://localhost:3003/bitcoin`
-      );
+    connect: () => {
+      // Asking if metamask is already present or not
+      if (window.ethereum) {
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then((res) => {
+            console.log(res);
+            // setdata({ ...data, address: res[0] });
+            setAddress(res[0]);
+            setPrompt(`Connected to ${res[0]} >>>`);
+          });
+      } else {
+        alert("install metamask extension!!");
+      }
+    },
+
+    balance: async (args) => {
+      console.log(args);
+      const _address = args || address;
+
+      const response = await fetch(`http://localhost:3003/balance/${_address}`);
+      return await response.text();
+    },
+
+    swap: async (args) => {
+      const [amount, source_token, destination_token] = args.split(" ");
+      const response = await fetch(`http://localhost:3003/swap/${source_token}&destination=${destination_token}?amount=${amount}`);
       return await response.text();
     },
   };
@@ -79,6 +109,6 @@ const App = () => {
       </TerminalContextProvider>
     </div>
   );
-}
+};
 
 export default App;
