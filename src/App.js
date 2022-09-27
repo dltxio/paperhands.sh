@@ -16,6 +16,9 @@ const App = () => {
         <strong>change_theme &lt;THEME&gt;</strong> - Changes the theme of the
         terminal. Allowed themes - light, dark, material-light, material-dark,
         material-ocean, matrix and dracula. <br />
+        <strong>connect - connects your Metamask wallet</strong>
+        <strong>price [SYMBOL]</strong> - gets the price of the token in USD <br />
+        <strong>price [SYMBOL] [FIAT]</strong> - gets the price of the token in that pair <br />
       </span>
     ),
 
@@ -39,22 +42,8 @@ const App = () => {
       setTheme(theme);
     },
 
-    // evaluate_math_expression: async (expr) => {
-    //   const response = await fetch(
-    //     `https://api.mathjs.org/v4/?expr=${encodeURIComponent(expr)}`
-    //   );
-    //   return await response.text();
-    // },
-
-    // command: async (command) => {
-    //   const response = await fetch(
-    //     `http://localhost:3003/expr=${encodeURIComponent(command)}`
-    //   );
-    //   return await response.text();
-    // },
-
     price: async (symbol) => {
-      const response = await fetch(`http://localhost:3003/price/${symbol}`);
+      const response = await fetch(`${process.env.REACT_APP_API}/price/${symbol}`);
       return await response.text();
     },
 
@@ -78,13 +67,13 @@ const App = () => {
       console.log(args);
       const _address = args || address;
 
-      const response = await fetch(`http://localhost:3003/balance/${_address}`);
+      const response = await fetch(`${process.env.REACT_APP_API}/balance/${_address}`);
       return await response.text();
     },
 
     swap: async (args) => {
       const [amount, source_token, destination_token] = args.split(" ");
-      const response = await fetch(`http://localhost:3003/swap/${source_token}&destination=${destination_token}?amount=${amount}`);
+      const response = await fetch(`${process.env.REACT_APP_API}/swap/${source_token}&destination=${destination_token}?amount=${amount}`);
       return await response.text();
     },
   };
