@@ -16,7 +16,7 @@ const App = () => {
         <strong>change_theme &lt;THEME&gt;</strong> - Changes the theme of the
         terminal. Allowed themes - light, dark, material-light, material-dark,
         material-ocean, matrix and dracula. <br />
-        <strong>connect - connects your Metamask wallet</strong>
+        <strong>connect</strong> - connects your Metamask wallet <br />
         <strong>price [SYMBOL]</strong> - gets the price of the token in USD <br />
         <strong>price [SYMBOL] [FIAT]</strong> - gets the price of the token in that pair <br />
       </span>
